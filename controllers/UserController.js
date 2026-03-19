@@ -3,9 +3,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 
-// ======================
 // Signup
-// ======================
 exports.signup = async (req, res) => {
   try {
 
@@ -38,9 +36,7 @@ exports.signup = async (req, res) => {
 };
 
 
-// ======================
 // Login
-// ======================
 exports.login = async (req, res) => {
   try {
 
@@ -59,17 +55,17 @@ exports.login = async (req, res) => {
     }
 
     // Generate JWT Token
-    const token = jwt.sign(
-      { id: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: "1d" }
-    );
+const token = jwt.sign(
+  { id: user._id },
+  process.env.SECRET_KEY,
+  { expiresIn: "1d" }
+);
 
-    res.json({
-      msg: "Login successful",
-      token,
-      user
-    });
+res.json({
+  msg: "Login successful",
+  token,
+  user
+});
 
   } catch (err) {
     res.status(500).json({ error: err.message });
@@ -77,9 +73,7 @@ exports.login = async (req, res) => {
 };
 
 
-// ======================
 // Profile (Protected)
-// ======================
 exports.profile = async (req, res) => {
   try {
 
@@ -96,9 +90,7 @@ exports.profile = async (req, res) => {
 };
 
 
-// ======================
 // Update Profile
-// ======================
 exports.updateProfile = async (req, res) => {
   try {
 
@@ -120,17 +112,5 @@ exports.updateProfile = async (req, res) => {
   }
 };
 
-exports.profile = async (req,res)=>{
-  try{
 
-    const user = await User.findById(req.user.id).select("-password");
 
-    res.json({
-      msg:"Profile fetched successfully",
-      user
-    });
-
-  }catch(err){
-    res.status(500).json({error:err.message});
-  }
-};  
